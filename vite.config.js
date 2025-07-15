@@ -2,16 +2,18 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    vuetify({ autoImport: true })
+    vuetify({ styles: { configFile: 'style.css' } }) // Points to your existing CSS
   ],
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': 'http://localhost:3000' // Proxy to back-end
+  resolve: {
+    alias: {
+      '@': '/', // Ensures imports work from root
+      'vue': 'vue/dist/vue.esm-bundler.js' // Critical for Vuetify
     }
+  },
+  optimizeDeps: {
+    include: ['vuetify'] // Pre-bundle Vuetify
   }
 })
