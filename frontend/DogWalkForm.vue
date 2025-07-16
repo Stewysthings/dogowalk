@@ -25,6 +25,7 @@
       <v-text-field v-model="location" label="Location" placeholder="e.g., Vancouver, BC" />
       <v-switch v-model="useFahrenheit" label="Show Fahrenheit" />
       <v-btn type="submit" color="primary">Calculate Walk Time</v-btn>
+      <v-btn @click="saveProfile" color="secondary" class="ml-2">Save Profile</v-btn>
     </v-form>
     <v-card-text v-if="result">
       <p>
@@ -39,6 +40,8 @@
 
 <script>
 import axios from 'axios'
+import { db } from './firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 export default {
   data() {
@@ -76,9 +79,4 @@ export default {
           warning: response.data.warning,
         }
       } catch (error) {
-        this.result = { walkTime: 0, warning: 'Error fetching weather data.' }
-      }
-    },
-  },
-}
-</script>
+        this.result = { walkTime: 0, warning: 'Error fetching weather data
