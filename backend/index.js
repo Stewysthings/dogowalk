@@ -1,6 +1,7 @@
-const express = require('express')
-const axios = require('axios')
-const cors = require('cors')
+import express from 'express'
+import axios from 'axios'
+import cors from 'cors'
+
 const app = express()
 
 app.use(cors())
@@ -8,12 +9,12 @@ app.use(express.json())
 
 app.post('/api/calculate-walk', async (req, res) => {
   const { dogSize, energyLevel, gear, location } = req.body
-  let baseTime = dogSize === 'Large' && energyLevel === 'High' ? 60 : 35 // Princess Cynthia vs. others
+  let baseTime = dogSize === 'Large' && energyLevel === 'High' ? 60 : dogSize === 'Extra-Large' ? 40 : 35
   let weatherModifier = 1.0
   let gearModifier = 0
 
   try {
-    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY' // Replace with your key
+    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY' // Replace with your actual OpenWeatherMap API key
     const weather = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`
     )
