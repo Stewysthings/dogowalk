@@ -79,4 +79,26 @@ export default {
           warning: response.data.warning,
         }
       } catch (error) {
-        this.result = { walkTime: 0, warning: 'Error fetching weather data
+        this.result = { walkTime: 0, warning: 'Error fetching weather data' }
+      }
+    },
+    async saveProfile() {
+      try {
+        await addDoc(collection(db, "dogProfiles"), {
+          dogName: this.dogName,
+          dogSize: this.dogSize,
+          energyLevel: this.energyLevel,
+          coatType: this.coatType,
+          gear: this.gear,
+          location: this.location,
+          timestamp: new Date()
+        });
+        alert("Profile saved successfully!");
+      } catch (error) {
+        console.error("Error saving profile: ", error);
+        alert("Error saving profile");
+      }
+    }
+  }
+}
+</script>

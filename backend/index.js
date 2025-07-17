@@ -33,7 +33,7 @@ app.post('/api/calculate-walk', async (req, res) => {
     else if (temp <= 0) weatherModifier = 0.33
 
     if (gear === 'Sweater' && temp < 7) gearModifier = 5
-    if (gear === 'CoolingVest' && temp > 18) gearModifier = 5
+    if (gear === 'Cooling Vest' && temp > 18) gearModifier = 5
 
     const humidityModifier = humidity > 60 ? 0.9 : 1.0
     const precipModifier = precipitation.includes('Rain') || precipitation.includes('Snow') ? 0.85 : 1.0
