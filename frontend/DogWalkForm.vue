@@ -25,6 +25,7 @@
       <v-text-field v-model="location" label="Location" placeholder="e.g., Vancouver, BC" />
       <v-switch v-model="useFahrenheit" label="Show Fahrenheit" />
       <v-btn type="submit" color="primary">Calculate Walk Time</v-btn>
+      <v-btn @click="saveProfile" color="secondary" class="ml-2">Save Profile</v-btn>
     </v-form>
     <v-card-text v-if="result">
       <p>
@@ -39,6 +40,8 @@
 
 <script>
 import axios from 'axios'
+import { db } from './firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 export default {
   data() {
@@ -76,9 +79,26 @@ export default {
           warning: response.data.warning,
         }
       } catch (error) {
-        this.result = { walkTime: 0, warning: 'Error fetching weather data.' }
+        this.result = { walkTime: 0, warning: 'Error fetching weather data' }
       }
     },
-  },
+    async saveProfile() {
+      try {
+        await addDoc(collection(db, "dogProfiles"), {
+          dogName: this.dogName,
+          dogSize: this.dogSize,
+          energyLevel: this.energyLevel,
+          coatType: this.coatType,
+          gear: this.gear,
+          location: this.location,
+          timestamp: new Date()
+        });
+        alert("Profile saved successfully!");
+      } catch (error) {
+        console.error("Error saving profile: ", error);
+        alert("Error saving profile");
+      }
+    }
+  }
 }
 </script>
